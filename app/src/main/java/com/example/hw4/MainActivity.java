@@ -372,6 +372,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public SpannableStringBuilder makeButton(String s, String color){
+
         if(color.equalsIgnoreCase("default"))
             color = "#303F9F";
         SpannableStringBuilder builder = new SpannableStringBuilder();
