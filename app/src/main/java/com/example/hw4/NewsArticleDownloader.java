@@ -50,8 +50,8 @@ public class NewsArticleDownloader implements Runnable{
         StringBuilder sb = new StringBuilder();
 
         try {
-            String prefix = "https://newsapi.org/v2/top-headlines?sources=";
-            String apikey = "&pageSize=100&apiKey=63c267b58435414d84bbe4adf5f594ea";
+            String prefix = "https://newsapi.org/v2/everything?sources=";
+            String apikey = "&language=en&pageSize=10&apiKey=63c267b58435414d84bbe4adf5f594ea";
             URL url = new URL(prefix +source+ apikey);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");

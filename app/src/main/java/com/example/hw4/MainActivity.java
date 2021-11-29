@@ -391,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
                 fragments.clear();
 
                 assert articles != null;
-                int x = articles.size() - 90;
+                int x = articles.size();
                 for (int i = 0; i < x; i++) {
                     fragments.add(ArticleFragment.newInstance(articles.get(i)));
                     PagerAdapter.notifyChangeInPosition(i);
