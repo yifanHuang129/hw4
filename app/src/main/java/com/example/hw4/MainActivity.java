@@ -362,9 +362,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         SList.addAll(list);
-
         DrawerList.setAdapter(new SourceAdapter(this, R.layout.drawer_list, SList));
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
@@ -429,6 +427,7 @@ public class MainActivity extends AppCompatActivity {
         String jsonString = writer.toString();
         return jsonString;
     }
+
     private void SelectNewsSource(int position) {
         setTitle(SList.get(position).getName());
         Intent requestIntent = new Intent();

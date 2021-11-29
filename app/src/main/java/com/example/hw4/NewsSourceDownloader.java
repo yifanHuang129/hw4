@@ -28,7 +28,7 @@ public class NewsSourceDownloader implements Runnable {
 
         try {
             String prefix  = "https://newsapi.org/v2/sources?";
-            String apikey = "apiKey=6bc7a6c09b3b4d11bcddcfb9b1eff8e8";
+            String apikey = "apiKey=33d5565ffe264727a70ac001cb03a0b4";
             URL url = new URL(prefix + apikey);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("GET");

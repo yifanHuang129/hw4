@@ -56,7 +56,7 @@ public class ArticleFragment extends Fragment implements Serializable {
             article = (Article) savedInstanceState.getSerializable("article");
 
         View v = inflater.inflate(R.layout.fragment, container, false);
-        TextView title = (TextView) v.findViewById(R.id.titleview);
+        TextView title = (TextView) v.findViewById(R.id.titleView);
         TextView author = (TextView) v.findViewById(R.id.author);
         TextView dateTextView = (TextView) v.findViewById(R.id.date);
         TextView articletext = (TextView) v.findViewById(R.id.articleText);
