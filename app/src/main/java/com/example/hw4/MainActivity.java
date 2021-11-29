@@ -204,25 +204,6 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-//        if (DrawerToggle.onOptionsItemSelected(item)) {
-//            return true;
-//        }
-//        String str = item.getTitle().toString();
-//        SpannableStringBuilder builder = new SpannableStringBuilder();
-//        SpannableString redSpannable = new SpannableString(item.getTitle().toString());
-//        redSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, str.length(), 0);
-//        builder.append(redSpannable);
-//        setTitle(builder);
-//        SList.clear();
-//        ArrayList<Source> list = sources.get(item.getTitle().toString());
-//        if (list != null) {
-//            SList.addAll(list);
-//        }
-//
-//        ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
-//
-//        return super.onOptionsItemSelected(item);
-
         if (DrawerToggle.onOptionsItemSelected(item)) {
             Log.d(TAG, "onOptionsItemSelected: mDrawerToggle " + item.getTitle());
             return true;
@@ -341,7 +322,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-//        sources.put("all", list);
 
         ArrayList<String> topicList = new ArrayList<>(Topic.keySet());
         ArrayList<String> countryList = new ArrayList<>(Country.keySet());
@@ -430,14 +410,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void SelectNewsSource(int position) {
-        setTitle(SList.get(position).getName());
-        Intent requestIntent = new Intent();
-        requestIntent.setAction(MainActivity.MSG_TO_SERVICE);
-        requestIntent.putExtra("sources", SList.get(position).getId());
-        sendBroadcast(requestIntent);
-        DrawerLayout.closeDrawer(DrawerList);
-    }
 
     //The following method convert Json file to String
     public String ConvertJtoS(Resources resources, int id){
