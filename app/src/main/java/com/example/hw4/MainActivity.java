@@ -201,72 +201,22 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<String> sourceslist = new ArrayList<>(sources.keySet());
         for (String s  : sourceslist) {
-            if (s.equalsIgnoreCase("general")) {
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString Spannable = new SpannableString(s);
-                Spannable.setSpan(new AbsoluteSizeSpan(50), 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                Spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#f1b541")), 0, s.length(), 0);
-                builder.append(Spannable);
-                menu_main.add(builder);
-            }
-            else if (s.equalsIgnoreCase("sports")) {
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString Spannable = new SpannableString(s);
-                Spannable.setSpan(new AbsoluteSizeSpan(50), 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                Spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#a9a6e0")), 0, s.length(), 0);
-                builder.append(Spannable);
-                menu_main.add(builder);
-            }
-            else if (s.equalsIgnoreCase("science")){
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString Spannable = new SpannableString(s);
-                Spannable.setSpan(new AbsoluteSizeSpan(50), 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                Spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#0CB1BB")), 0, s.length(), 0);
-                builder.append(Spannable);
-                menu_main.add(builder);
-
-            }
-            else if (s.equalsIgnoreCase("health")) {
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString Spannable = new SpannableString(s);
-                Spannable.setSpan(new AbsoluteSizeSpan(50), 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                Spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#8B008B")), 0, s.length(), 0);
-                builder.append(Spannable);
-                menu_main.add(builder);
-            }
-            else if (s.equalsIgnoreCase("business")){
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString Spannable = new SpannableString(s);
-                Spannable.setSpan(new AbsoluteSizeSpan(50), 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                Spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#008000")), 0, s.length(), 0);
-                builder.append(Spannable);
-                menu_main.add(builder);
-            }
-            else if (s.equalsIgnoreCase("entertainment")){
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString Spannable = new SpannableString(s);
-                Spannable.setSpan(new AbsoluteSizeSpan(50), 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                Spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), 0, s.length(), 0);
-                builder.append(Spannable);
-                menu_main.add(builder);
-            }
-
-            else if (s.equalsIgnoreCase("technology")){
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString Spannable = new SpannableString(s);
-                Spannable.setSpan(new AbsoluteSizeSpan(50), 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                Spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#FF1493")), 0, s.length(), 0);
-                builder.append(Spannable);
-                menu_main.add(builder);
-            }
-            else {
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString Spannable = new SpannableString(s);
-                Spannable.setSpan(new AbsoluteSizeSpan(50), 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                Spannable.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
-                builder.append(Spannable);
-                menu_main.add(builder);
-            }
+            if (s.equalsIgnoreCase("general"))
+                makeButton(s, "#f1b541");
+            else if (s.equalsIgnoreCase("sports"))
+                makeButton(s,"#a9a6e0");
+            else if (s.equalsIgnoreCase("science"))
+                makeButton(s,"#0CB1BB");
+            else if (s.equalsIgnoreCase("health"))
+                makeButton(s,"#8B008B");
+            else if (s.equalsIgnoreCase("business"))
+                makeButton(s,"#008000");
+            else if (s.equalsIgnoreCase("entertainment"))
+                makeButton(s,"#FF0000");
+            else if (s.equalsIgnoreCase("technology"))
+                makeButton(s, "#FF1493");
+            else
+                makeButton(s, "default");
         }
         SList.addAll(list);
         DrawerList.setAdapter(new SourceAdapter(this, R.layout.drawer_list, SList));
@@ -274,6 +224,17 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
+    }
+
+    public void makeButton(String s, String color){
+        if(color.equalsIgnoreCase("default"))
+            color = "#303F9F";
+            SpannableStringBuilder builder = new SpannableStringBuilder();
+            SpannableString Spannable = new SpannableString(s);
+            Spannable.setSpan(new AbsoluteSizeSpan(50), 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            Spannable.setSpan(new ForegroundColorSpan(Color.parseColor(color)), 0, s.length(), 0);
+            builder.append(Spannable);
+            menu_main.add(builder);
     }
 
     public class NewsReceiver extends BroadcastReceiver {
