@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     static final String NEWS_STORY = "NEWS_STORY";
     private NewsReceiver newsReceiver;
     private final ArrayList<Source> SList = new ArrayList<>();
-    private final ArrayList<String> SourceOnShow = new ArrayList<>();
     private final HashMap<String, ArrayList<Source>> Topic = new HashMap<>();
     private final HashMap<String, ArrayList<Source>> Country = new HashMap<>();
     private final HashMap<String, ArrayList<Source>> Language = new HashMap<>();
@@ -223,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 currentTopic = item.getTitle().toString();
                 ArrayList<Source> topics = Topic.get(currentTopic);
                 setTitle(String.format("%s (%s)", getString(R.string.app_name), topics.size()));
-                SourceOnShow.clear();
+                SList.clear();
                 arrayAdapter.notifyDataSetChanged();
                 for (Source s : topics) {
                     SList.add(s);
@@ -232,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
             else if (id == 1) {
                 currentLanguage = item.getTitle().toString();
                 ArrayList<Source> languages = Language.get(currentLanguage);
-                SourceOnShow.clear();
+                SList.clear();
                 arrayAdapter.notifyDataSetChanged();
 
                 List<Source> filteredLanguages = new ArrayList<>();
@@ -255,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             else if (id == 2) {
                 currentCountry = item.getTitle().toString();
                 ArrayList<Source> countries = Country.get(currentCountry);
-                SourceOnShow.clear();
+                SList.clear();
                 arrayAdapter.notifyDataSetChanged();
 
                 List<Source> filteredCountries = new ArrayList<>();
