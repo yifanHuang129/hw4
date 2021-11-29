@@ -198,23 +198,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        String str = item.getTitle().toString();
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        SpannableString redSpannable = new SpannableString(item.getTitle().toString());
-        redSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, str.length(), 0);
-        builder.append(redSpannable);
-        setTitle(builder);
+        if (DrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
 
         SubMenu subMenu = item.getSubMenu();
 
         if (subMenu == null) {
 
-            SList.clear();
-
             int id = item.getItemId();
             if (id == 0) {
                 currentTopic = item.getTitle().toString();
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                SpannableString redSpannable = new SpannableString(item.getTitle().toString());
+                redSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, currentTopic.length(), 0);
+                builder.append(redSpannable);
+                setTitle(builder);
                 ArrayList<Source> topics = Topic.get(currentTopic);
                 setTitle(String.format("%s (%s)", getString(R.string.app_name), topics.size()));
                 SList.clear();
