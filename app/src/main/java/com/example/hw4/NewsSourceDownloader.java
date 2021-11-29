@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,6 +35,8 @@ public class NewsSourceDownloader implements Runnable {
             connection.setRequestMethod("GET");
             connection.addRequestProperty("User-Agent","");
             InputStream inputStream = connection.getInputStream();
+//            String str = "C:\\Users\\hs\\AndroidStudioProjects\\hw4\\app\\src\\main\\res\\raw\\sources.json";
+//            InputStream inputStream = new ByteArrayInputStream(str.getBytes());
             BufferedReader reader = new BufferedReader((new InputStreamReader(inputStream)));
             String line;
             while ((line = reader.readLine()) != null) sb.append(line).append("\n");
