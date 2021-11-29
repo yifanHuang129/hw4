@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     private NewsReceiver newsReceiver;
     private final ArrayList<Source> SList = new ArrayList<>();
     private final ArrayList<String> SourceOnShow = new ArrayList<>();
-    private final HashMap<String, ArrayList<Source>> sources = new HashMap<>();
     private final HashMap<String, ArrayList<Source>> Topic = new HashMap<>();
     private final HashMap<String, ArrayList<Source>> Country = new HashMap<>();
     private final HashMap<String, ArrayList<Source>> Language = new HashMap<>();
@@ -89,16 +88,14 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(newsReceiver, new IntentFilter(NEWS_STORY));
         registerReceiver(newsReceiver, new IntentFilter(MSG_TO_SERVICE));
         DrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-
-        DrawerLayout = findViewById(R.id.drawer_layout);
-        DrawerList = findViewById(R.id.drawer);
+        DrawerList = (ListView) findViewById(R.id.drawer);
         DrawerList.setOnItemClickListener(
                 (parent, view, position, id) -> {
-                    DrawerLayout.closeDrawer(DrawerList);
+                    SelectNewsSource(position);
                 }
         );
         DrawerToggle = new ActionBarDrawerToggle(this, DrawerLayout, R.string.drawer_open, R.string.drawer_close);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         PagerAdapter = new PagerAdapter(getSupportFragmentManager());
         fragments = new ArrayList<>();
         pager = (ViewPager) findViewById(R.id.pager);
@@ -201,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (DrawerToggle.onOptionsItemSelected(item)) {
@@ -211,7 +207,17 @@ public class MainActivity extends AppCompatActivity {
 
         SubMenu subMenu = item.getSubMenu();
 
-        if (subMenu == null) {
+        if (subMenu != null) {
+
+            String str = item.getTitle().toString();
+            SpannableStringBuilder builder = new SpannableStringBuilder();
+            SpannableString redSpannable = new SpannableString(item.getTitle().toString());
+            redSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, str.length(), 0);
+            builder.append(redSpannable);
+            setTitle(builder);
+
+            SList.clear();
+
             int id = item.getItemId();
             if (id == 0) {
                 currentTopic = item.getTitle().toString();
@@ -219,8 +225,8 @@ public class MainActivity extends AppCompatActivity {
                 setTitle(String.format("%s (%s)", getString(R.string.app_name), topics.size()));
                 SourceOnShow.clear();
                 arrayAdapter.notifyDataSetChanged();
-                for (Source source : topics) {
-                    SourceOnShow.add(source.getName());
+                for (Source s : topics) {
+                    SList.add(s);
                 }
             }
             else if (id == 1) {
@@ -229,17 +235,21 @@ public class MainActivity extends AppCompatActivity {
                 SourceOnShow.clear();
                 arrayAdapter.notifyDataSetChanged();
 
-                List<Source> filteredLanguages;
+                List<Source> filteredLanguages = new ArrayList<>();
                 if (currentTopic != null) {
-                    filteredLanguages = languages.stream()
-                            .filter(source1 -> source1.getCategory().equalsIgnoreCase(currentTopic))
-                            .collect(Collectors.toList());
+//                    filteredLanguages = languages.stream()
+//                            .filter(source1 -> source1.getCategory().equalsIgnoreCase(currentTopic))
+//                            .collect(Collectors.toList());
+                    for(Source s: languages){
+                        if(s.getCategory().equalsIgnoreCase(currentTopic))
+                            filteredLanguages.add(s);
+                    }
                 } else {
                     filteredLanguages = new ArrayList<>(languages);
                 }
                 setTitle(String.format("%s (%s)", getString(R.string.app_name), filteredLanguages.size()));
-                for (Source source : filteredLanguages) {
-                    SourceOnShow.add(source.getName());
+                for (Source s : filteredLanguages) {
+                    SList.add(s);
                 }
             }
             else if (id == 2) {
@@ -248,17 +258,21 @@ public class MainActivity extends AppCompatActivity {
                 SourceOnShow.clear();
                 arrayAdapter.notifyDataSetChanged();
 
-                List<Source> filteredCountries;
+                List<Source> filteredCountries = new ArrayList<>();
                 if (currentLanguage != null && !currentLanguage.equalsIgnoreCase("All")) {
-                    filteredCountries = countries.stream()
-                            .filter(source1 -> source1.getLanguage().equalsIgnoreCase(currentLanguage))
-                            .collect(Collectors.toList());
+//                    filteredCountries = countries.stream()
+//                            .filter(source1 -> source1.getLanguage().equalsIgnoreCase(currentLanguage))
+//                            .collect(Collectors.toList());
+                    for(Source s: countries){
+                        if(s.getLanguage().equalsIgnoreCase(currentLanguage))
+                            filteredCountries.add(s);
+                    }
                 } else {
                     filteredCountries = new ArrayList<>(countries);
                 }
                 setTitle(String.format("%s (%s)", getString(R.string.app_name), filteredCountries.size()));
-                for (Source source : filteredCountries) {
-                    SourceOnShow.add(source.getName());
+                for (Source s : filteredCountries) {
+                    SList.add(s);
                 }
             }
         }
@@ -269,44 +283,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void getData(ArrayList<Source> list) {
-        Topic.put("all", new ArrayList<>(list));
-        Country.put("all", new ArrayList<>(list));
-        Language.put("all", new ArrayList<>(list));
-
         for (Source s : list) {
             if (s.getCategory().isEmpty()) {
                 s.setCategory("Unspecified");
             }
+            if (s.getLanguage().isEmpty()) {
+                s.setLanguage("Unspecified");
+            }
+            if (s.getCountry().isEmpty()) {
+                s.setCountry("Unspecified");
+            }
             if (!Topic.containsKey(s.getCategory())) {
                 Topic.put(s.getCategory(), new ArrayList<>());
-            }
-            ArrayList<Source> arr = Topic.get(s.getCategory());
-            if (arr != null) {
-                arr.add(s);
-            }
-
-            String jCountries = ConvertJtoS(getResources(), R.raw.country_codes);
-
-            try {
-                JSONObject jsonObject  = new JSONObject(jCountries);
-                JSONArray jsonArray = jsonObject.getJSONArray("countries");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jObj = jsonArray.getJSONObject(i);
-                    if (jObj.getString("code").toLowerCase(Locale.ROOT).equalsIgnoreCase(s.getCountry())) {
-                        if (!Country.containsKey(jObj.getString("name"))) {
-                            Country.put(jObj.getString("name"), new ArrayList<>());
-                        }
-                        Objects.requireNonNull(Country.get(jObj.getString("name"))).add(s);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
 
             String jLanguage = ConvertJtoS(getResources(), R.raw.language_codes);
 
             try {
-                JSONObject jsonObject  = new JSONObject(jLanguage);
+                JSONObject jsonObject = new JSONObject(jLanguage);
                 JSONArray jsonArray = jsonObject.getJSONArray("languages");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jObj = jsonArray.getJSONObject(i);
@@ -321,19 +315,41 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            String jCountries = ConvertJtoS(getResources(), R.raw.country_codes);
+            try {
+                JSONObject jsonObject = new JSONObject(jCountries);
+                JSONArray jsonArray = jsonObject.getJSONArray("countries");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jObj = jsonArray.getJSONObject(i);
+                    if (jObj.getString("code").toLowerCase(Locale.ROOT).equalsIgnoreCase(s.getCountry())) {
+                        if (!Country.containsKey(jObj.getString("name"))) {
+                            Country.put(jObj.getString("name"), new ArrayList<>());
+                        }
+                        Objects.requireNonNull(Country.get(jObj.getString("name"))).add(s);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            ArrayList<Source> arr = Topic.get(s.getCategory());
+            if (arr != null) {
+                arr.add(s);
+            }
         }
+        Topic.put("all", new ArrayList<>(list));
+        Country.put("all", new ArrayList<>(list));
+        Language.put("all", new ArrayList<>(list));
+
 
         ArrayList<String> topicList = new ArrayList<>(Topic.keySet());
         ArrayList<String> countryList = new ArrayList<>(Country.keySet());
         ArrayList<String> languageList = new ArrayList<>(Language.keySet());
 
-        Collections.sort(topicList);
-        Collections.sort(countryList);
-        Collections.sort(languageList);
 
         SubMenu topicsSubMenu = menu_main.addSubMenu(0,0,0,"Topics");
-        SubMenu countriesSubMenu = menu_main.addSubMenu(0,2,0,"Countries");
         SubMenu languagesSubMenu = menu_main.addSubMenu(0,1,0,"Languages");
+        SubMenu countriesSubMenu = menu_main.addSubMenu(0,2,0,"Countries");
 
 
         for (String s  : topicList) {
@@ -363,12 +379,9 @@ public class MainActivity extends AppCompatActivity {
             countriesSubMenu.add(Menu.NONE, 2, i, countryList.get(i));
         }
 
-        ArrayList<Source> sources = Topic.get("all");
-        for (Source s : sources) {
-            SourceOnShow.add(s.getName());
-        }
+        SList.addAll(list);
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.drawer_list, SourceOnShow);
+        arrayAdapter = new ArrayAdapter(this, R.layout.drawer_list, SList);
         DrawerList.setAdapter(arrayAdapter);
 
         if (getSupportActionBar() != null) {
@@ -433,6 +446,14 @@ public class MainActivity extends AppCompatActivity {
         }
         String jsonString = writer.toString();
         return jsonString;
+    }
+    private void SelectNewsSource(int position) {
+        setTitle(SList.get(position).getName());
+        Intent requestIntent = new Intent();
+        requestIntent.setAction(MainActivity.MSG_TO_SERVICE);
+        requestIntent.putExtra("sources", SList.get(position).getId());
+        sendBroadcast(requestIntent);
+        DrawerLayout.closeDrawer(DrawerList);
     }
 
 }

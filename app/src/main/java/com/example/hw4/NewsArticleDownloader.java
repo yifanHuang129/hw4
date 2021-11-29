@@ -50,7 +50,7 @@ public class NewsArticleDownloader implements Runnable{
         StringBuilder sb = new StringBuilder();
 
         try {
-            String prefix = "https://newsapi.org/v2/top-headlines";
+            String prefix = "https://newsapi.org/v2/top-headlines?";
             String apikey = "&pageSize=100&apiKey=6bc7a6c09b3b4d11bcddcfb9b1eff8e8";
 //            String apikey = "&language=en&pageSize=100&apiKey=6bc7a6c09b3b4d11bcddcfb9b1eff8e8";
             URL url = new URL(prefix +source+ apikey);
