@@ -363,8 +363,7 @@ public class MainActivity extends AppCompatActivity {
 
         SList.addAll(list);
 
-        arrayAdapter = new ArrayAdapter(this, R.layout.drawer_list, SList);
-        DrawerList.setAdapter(arrayAdapter);
+        DrawerList.setAdapter(new SourceAdapter(this, R.layout.drawer_list, SList));
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
