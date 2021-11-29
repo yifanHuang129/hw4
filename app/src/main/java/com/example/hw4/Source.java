@@ -6,12 +6,16 @@ public class Source {
     private String name;
     private String url;
     private String category;
+    private String country;
+    private String language;
 
-    public Source(String id, String name, String url, String category) {
+    public Source(String id, String name, String url, String category, String country, String language) {
         this.id = id;
         this.name = name;
         this.url = url;
         this.category = category;
+        this.country = country;
+        this.language = language;
     }
 
     public String getId() {
@@ -42,9 +46,17 @@ public class Source {
         return category;
     }
 
+    public String getCountry() { return country; }
+
+    public String getLanguage() { return language; }
+
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public void setCountry(String country) { this.country = country; }
+
+    public void setLanguage(String country) { this.language = language; }
 
     @Override
     public String toString() {

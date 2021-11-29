@@ -26,8 +26,9 @@ public class NewsSourceDownloader implements Runnable {
         StringBuilder sb = new StringBuilder();
 
         try {
-            String prefix = "https://newsapi.org/v2/sources?language=en&country=us&category=";
-            String apikey = "&apiKey=33d5565ffe264727a70ac001cb03a0b4";
+//          String prefix = "https://newsapi.org/v2/sources?language=en&country=us&category=";
+            String prefix  = "https://newsapi.org/v2/sources?";
+            String apikey = "&apiKey=6bc7a6c09b3b4d11bcddcfb9b1eff8e8";
             URL url = new URL(prefix + apikey);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -63,7 +64,9 @@ public class NewsSourceDownloader implements Runnable {
                 String name = jObjSource.getString("name");
                 String url = jObjSource.getString("url");
                 String category = jObjSource.getString("category");
-                arr.add(new Source(id,name,url,category));
+                String country = jObjSource.getString("country");
+                String language = jObjSource.getString("language");
+                arr.add(new Source(id,name,url,category, country, language));
             }
             return arr;
         } catch (Exception e) {
