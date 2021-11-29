@@ -209,11 +209,6 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == 0) {
                 currentTopic = item.getTitle().toString();
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString redSpannable = new SpannableString(item.getTitle().toString());
-                redSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, currentTopic.length(), 0);
-                builder.append(redSpannable);
-                setTitle(builder);
                 ArrayList<Source> topics = Topic.get(currentTopic);
                 setTitle(String.format("%s (%s)", getString(R.string.app_name), topics.size()));
                 SList.clear();
@@ -334,28 +329,28 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> languageList = new ArrayList<>(Language.keySet());
 
 
-        SubMenu topicsSubMenu = menu_main.addSubMenu(0,0,0,"Topics");
+        SubMenu topicsSubMenu    = menu_main.addSubMenu(0,0,0,"Topics");
         SubMenu languagesSubMenu = menu_main.addSubMenu(0,1,0,"Languages");
         SubMenu countriesSubMenu = menu_main.addSubMenu(0,2,0,"Countries");
 
 
         for (String s  : topicList) {
             if (s.equalsIgnoreCase("general"))
-                menu_main.getItem(0).getSubMenu().add(makeButton(s, "#f1b541"));
+                menu_main.add(makeButton(s, "#f1b541"));
             else if (s.equalsIgnoreCase("sports"))
-                menu_main.getItem(0).getSubMenu().add(makeButton(s,"#a9a6e0"));
+                menu_main.add(makeButton(s,"#a9a6e0"));
             else if (s.equalsIgnoreCase("science"))
-                menu_main.getItem(0).getSubMenu().add(makeButton(s,"#0CB1BB"));
+                menu_main.add(makeButton(s,"#0CB1BB"));
             else if (s.equalsIgnoreCase("health"))
-                menu_main.getItem(0).getSubMenu().add(makeButton(s,"#8B008B"));
+                menu_main.add(makeButton(s,"#8B008B"));
             else if (s.equalsIgnoreCase("business"))
-                menu_main.getItem(0).getSubMenu().add(makeButton(s,"#008000"));
+                menu_main.add(makeButton(s,"#008000"));
             else if (s.equalsIgnoreCase("entertainment"))
-                menu_main.getItem(0).getSubMenu().add(makeButton(s,"#FF0000"));
+                menu_main.add(makeButton(s,"#FF0000"));
             else if (s.equalsIgnoreCase("technology"))
-                menu_main.getItem(0).getSubMenu().add(makeButton(s, "#FF1493"));
+                menu_main.add(makeButton(s, "#FF1493"));
             else
-                menu_main.getItem(0).getSubMenu().add(makeButton(s, "default"));
+                menu_main.add(makeButton(s, "default"));
         }
 
         for (int i = 0; i < languageList.size(); i++) {
