@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     private ListView DrawerList;
     private List<Fragment> fragments;
     private PagerAdapter PagerAdapter;
-    private ArrayAdapter<String> arrayAdapter;
     private ViewPager pager;
 
     private String currentTopic = null;
@@ -212,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<Source> topics = Topic.get(currentTopic);
                 setTitle(String.format("%s (%s)", getString(R.string.app_name), topics.size()));
                 SList.clear();
-                arrayAdapter.notifyDataSetChanged();
+                ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
                 for (Source s : topics) {
                     SList.add(s);
                 }
@@ -221,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 currentLanguage = item.getTitle().toString();
                 ArrayList<Source> languages = Language.get(currentLanguage);
                 SList.clear();
-                arrayAdapter.notifyDataSetChanged();
+                ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
 
                 List<Source> filteredLanguages = new ArrayList<>();
                 if (currentTopic != null) {
@@ -241,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                 currentCountry = item.getTitle().toString();
                 ArrayList<Source> countries = Country.get(currentCountry);
                 SList.clear();
-                arrayAdapter.notifyDataSetChanged();
+                ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
 
                 List<Source> filteredCountries = new ArrayList<>();
                 if (currentLanguage != null && !currentLanguage.equalsIgnoreCase("All")) {
@@ -259,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        arrayAdapter.notifyDataSetChanged();
+        ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
         return super.onOptionsItemSelected(item);
     }
 
@@ -436,5 +435,7 @@ public class MainActivity extends AppCompatActivity {
         sendBroadcast(requestIntent);
         DrawerLayout.closeDrawer(DrawerList);
     }
+
+
 
 }
