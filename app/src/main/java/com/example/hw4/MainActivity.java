@@ -199,21 +199,16 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (DrawerToggle.onOptionsItemSelected(item)) {
-            Log.d(TAG, "onOptionsItemSelected: mDrawerToggle " + item.getTitle());
-            return true;
-        }
+        String str = item.getTitle().toString();
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        SpannableString redSpannable = new SpannableString(item.getTitle().toString());
+        redSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, str.length(), 0);
+        builder.append(redSpannable);
+        setTitle(builder);
 
         SubMenu subMenu = item.getSubMenu();
 
-        if (subMenu != null) {
-
-            String str = item.getTitle().toString();
-            SpannableStringBuilder builder = new SpannableStringBuilder();
-            SpannableString redSpannable = new SpannableString(item.getTitle().toString());
-            redSpannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, str.length(), 0);
-            builder.append(redSpannable);
-            setTitle(builder);
+        if (subMenu == null) {
 
             SList.clear();
 
@@ -236,9 +231,6 @@ public class MainActivity extends AppCompatActivity {
 
                 List<Source> filteredLanguages = new ArrayList<>();
                 if (currentTopic != null) {
-//                    filteredLanguages = languages.stream()
-//                            .filter(source1 -> source1.getCategory().equalsIgnoreCase(currentTopic))
-//                            .collect(Collectors.toList());
                     for(Source s: languages){
                         if(s.getCategory().equalsIgnoreCase(currentTopic))
                             filteredLanguages.add(s);
@@ -259,9 +251,6 @@ public class MainActivity extends AppCompatActivity {
 
                 List<Source> filteredCountries = new ArrayList<>();
                 if (currentLanguage != null && !currentLanguage.equalsIgnoreCase("All")) {
-//                    filteredCountries = countries.stream()
-//                            .filter(source1 -> source1.getLanguage().equalsIgnoreCase(currentLanguage))
-//                            .collect(Collectors.toList());
                     for(Source s: countries){
                         if(s.getLanguage().equalsIgnoreCase(currentLanguage))
                             filteredCountries.add(s);
