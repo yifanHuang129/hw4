@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -59,8 +60,13 @@ public class NewsArticleDownloader implements Runnable{
             InputStream inputStream = connection.getInputStream();
             BufferedReader reader = new BufferedReader((new InputStreamReader(inputStream)));
             String line;
-            while ((line = reader.readLine()) != null)
+            String filename = "D:/accounts.txt";
+            PrintStream out = new PrintStream(filename);
+            System.setOut(out);
+            while ((line = reader.readLine()) != null) {
                 sb.append(line).append("\n");
+                System.out.println(line);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
