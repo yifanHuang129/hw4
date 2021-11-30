@@ -1,5 +1,6 @@
 package com.example.hw4;
 
+import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -53,9 +54,13 @@ public class NewsArticleDownloader implements Runnable{
         StringBuilder sb = new StringBuilder();
 
         try {
-            String prefix = "https://newsapi.org/v2/everything?sources=";
-            String apikey = "&language=en&pageSize=10&apiKey=63c267b58435414d84bbe4adf5f594ea";
-            URL url = new URL(prefix +source+ apikey);
+            final String prefix = "https://newsapi.org/v2/top-headlines?";
+            final String apikey = "63c267b58435414d84bbe4adf5f594ea";
+            Uri.Builder buildURL = Uri.parse(prefix).buildUpon();
+            buildURL.appendQueryParameter("sources", source);
+            buildURL.appendQueryParameter("apiKey", apikey);
+            String urlToUse = buildURL.build().toString();
+            URL url = new URL(urlToUse);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.addRequestProperty("User-Agent","");
