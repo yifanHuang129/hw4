@@ -5,9 +5,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -51,8 +55,8 @@ public class NewsArticleDownloader implements Runnable{
         StringBuilder sb = new StringBuilder();
 
         try {
-            String prefix = "https://newsapi.org/v2/everything?sources=";
-            String apikey = "&language=en&pageSize=10&apiKey=63c267b58435414d84bbe4adf5f594ea";
+            String prefix = "https://newsapi.org/v2/top-headlines?sources=";
+            String apikey = "&apiKey=63c267b58435414d84bbe4adf5f594ea";
             URL url = new URL(prefix +source+ apikey);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -60,13 +64,17 @@ public class NewsArticleDownloader implements Runnable{
             InputStream inputStream = connection.getInputStream();
             BufferedReader reader = new BufferedReader((new InputStreamReader(inputStream)));
             String line;
-            String filename = "D:/accounts.txt";
-            PrintStream out = new PrintStream(filename);
-            System.setOut(out);
+            String filename = "C:/content.txt";
+            File f = new File(filename);
+            OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(f));
+            BufferedWriter writer = new BufferedWriter(write);
             while ((line = reader.readLine()) != null) {
                 sb.append(line).append("\n");
-                System.out.println(line);
+                writer.write(line);
             }
+            writer.flush();
+            write.close();
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
