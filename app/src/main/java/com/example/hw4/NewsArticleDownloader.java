@@ -78,6 +78,7 @@ public class NewsArticleDownloader implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         handleResults(sb.toString());
 
     }
