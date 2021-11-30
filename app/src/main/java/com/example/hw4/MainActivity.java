@@ -201,60 +201,54 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        SubMenu subMenu = item.getSubMenu();
-
-        if (subMenu == null) {
-
-            int id = item.getItemId();
-            if (id == 0) {
-                currentTopic = item.getTitle().toString();
-                ArrayList<Source> topics = Topic.get(currentTopic);
-                setTitle(String.format("%s (%s)", getString(R.string.app_name), topics.size()));
-                SList.clear();
-                ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
-                for (Source s : topics) {
-                    SList.add(s);
-                }
+        int id = item.getItemId();
+        if (id == 0) {
+            currentTopic = item.getTitle().toString();
+            ArrayList<Source> topics = Topic.get(currentTopic);
+//            setTitle(String.format("%s (%s)", getString(R.string.app_name), topics.size()));
+            SList.clear();
+            ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
+            for (Source s : topics) {
+                SList.add(s);
             }
-            else if (id == 1) {
-                currentLanguage = item.getTitle().toString();
-                ArrayList<Source> languages = Language.get(currentLanguage);
-                SList.clear();
-                ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
-
-                List<Source> filteredLanguages = new ArrayList<>();
-                if (currentTopic != null) {
-                    for(Source s: languages){
-                        if(s.getCategory().equalsIgnoreCase(currentTopic))
-                            filteredLanguages.add(s);
-                    }
-                } else {
-                    filteredLanguages = new ArrayList<>(languages);
+        }
+        else if (id == 1) {
+            currentLanguage = item.getTitle().toString();
+            ArrayList<Source> languages = Language.get(currentLanguage);
+            SList.clear();
+            ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
+            List<Source> filteredLanguages = new ArrayList<>();
+            if (currentTopic != null) {
+                for(Source s: languages){
+                    if(s.getCategory().equalsIgnoreCase(currentTopic))
+                        filteredLanguages.add(s);
                 }
-                setTitle(String.format("%s (%s)", getString(R.string.app_name), filteredLanguages.size()));
-                for (Source s : filteredLanguages) {
-                    SList.add(s);
-                }
+            } else {
+                filteredLanguages = new ArrayList<>(languages);
             }
-            else if (id == 2) {
-                currentCountry = item.getTitle().toString();
-                ArrayList<Source> countries = Country.get(currentCountry);
-                SList.clear();
-                ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
+//            setTitle(String.format("%s (%s)", getString(R.string.app_name), filteredLanguages.size()));
+            for (Source s : filteredLanguages) {
+                SList.add(s);
+            }
+        }
+        else if (id == 2) {
+            currentCountry = item.getTitle().toString();
+            ArrayList<Source> countries = Country.get(currentCountry);
+            SList.clear();
+            ((ArrayAdapter) DrawerList.getAdapter()).notifyDataSetChanged();
 
-                List<Source> filteredCountries = new ArrayList<>();
-                if (currentLanguage != null && !currentLanguage.equalsIgnoreCase("All")) {
-                    for(Source s: countries){
-                        if(s.getLanguage().equalsIgnoreCase(currentLanguage))
-                            filteredCountries.add(s);
-                    }
-                } else {
-                    filteredCountries = new ArrayList<>(countries);
+            List<Source> filteredCountries = new ArrayList<>();
+            if (currentLanguage != null && !currentLanguage.equalsIgnoreCase("All")) {
+                for(Source s: countries){
+                    if(s.getLanguage().equalsIgnoreCase(currentLanguage))
+                        filteredCountries.add(s);
                 }
-                setTitle(String.format("%s (%s)", getString(R.string.app_name), filteredCountries.size()));
-                for (Source s : filteredCountries) {
-                    SList.add(s);
-                }
+            } else {
+                filteredCountries = new ArrayList<>(countries);
+            }
+//            setTitle(String.format("%s (%s)", getString(R.string.app_name), filteredCountries.size()));
+            for (Source s : filteredCountries) {
+                SList.add(s);
             }
         }
 

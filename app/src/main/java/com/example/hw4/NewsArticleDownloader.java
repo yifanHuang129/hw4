@@ -67,7 +67,6 @@ public class NewsArticleDownloader implements Runnable{
             InputStream inputStream = connection.getInputStream();
             BufferedReader reader = new BufferedReader((new InputStreamReader(inputStream)));
             String line;
-
             while ((line = reader.readLine()) != null) {
                 sb.append(line).append("\n");
                 Log.d("article: ", line);
